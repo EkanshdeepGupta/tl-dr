@@ -1,25 +1,41 @@
+#include "sentence.h"
+
 #include <iostream>
 #include <string>
 #include <unistd.h>
 #include <stdlib.h>
+#include <vector>
+#include <fstream>
 
 using namespace std;
 
 string previousWord(int position, int wordCount);
 string nextWord(int position, int wordCount);
+bool endOfSentence(int periodIndex);
+
+void sentenceInitializer();
 
 string gMainPara;
 
+vector <sentence> sentenceArr;
+
 int main() {
-    getline(cin, gMainPara);
-    int x;
-    cout << "x?: ";
-    cin >> x;
-    cout << "x: " << x << endl;
-    int y;
-    cout << "y?: ";
-    cin >> y;
-    cout << nextWord(x, y);
+
+        ifstream input("./text.txt");
+
+        string tempString;
+        while (!getline(input, tempString).eof()) {
+            gMainPara += tempString;
+        };
+        input.close();
+
+
+    sentenceInitializer();
+
+    for (int x=0; x<sentenceArr.size(); x++) {
+        cout << "SENTENCE " << x << ":\t" << gMainPara.substr(sentenceArr[x].getBeginIndex(), (sentenceArr[x].getEndIndex()-sentenceArr[x].getBeginIndex() + 1)) << endl << endl;
+    };
+
 }
 
 string previousWord(int position, int wordCount=1) {
@@ -74,4 +90,40 @@ string nextWord(int position, int wordCount=1) {
     if (gMainPara[lastChar] == ' ') {lastChar--;};
 
     return gMainPara.substr(firstChar, lastChar-firstChar+1);
+};
+
+bool endOfSentence(int periodIndex) {
+    if (gMainPara[periodIndex] == '.') {
+        if (true /*gMainPara[periodIndex+1] == ' ' || gMainPara[periodIndex+1] == '\n'*/) {
+            if (gMainPara[periodIndex-1] != ' ') {
+                if (previousWord(periodIndex) != "Dr." && previousWord(periodIndex) != "Mr.") {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+void sentenceInitializer() {
+    int index = 0;
+    int sentenceIndex = 0;
+    int beginIndex = 0;
+
+    while(index < gMainPara.length()) {
+        while (gMainPara[index] != '.') {index++;};
+
+        if (endOfSentence(index)) {
+            sentence tempSentence;
+            tempSentence.setBeginIndex(beginIndex);
+            tempSentence.setEndIndex(index);
+            tempSentence.setSentenceIndex(sentenceIndex);
+
+            sentenceArr.push_back(tempSentence);
+
+            sentenceIndex++;
+            beginIndex = ++index;
+        };
+    };
 };

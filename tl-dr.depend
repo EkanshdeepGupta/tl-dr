@@ -5,3 +5,17 @@
 	<unistd.h>
 	<stdlib.h>
 
+1469025004 source:/home/ekansh/Git/tl-dr/main.cpp
+	"sentence.h"
+	<iostream>
+	<string>
+	<unistd.h>
+	<stdlib.h>
+	<vector>
+	<fstream>
+
+1469022816 /home/ekansh/Git/tl-dr/include/sentence.h
+
+1469022934 source:/home/ekansh/Git/tl-dr/src/sentence.cpp
+	"sentence.h"
+
