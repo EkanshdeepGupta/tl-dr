@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1468271328 source:/home/ekansh/Code::Blocks/tl-dr/main.cpp
+	<iostream>
+	<string>
+	<unistd.h>
+	<stdlib.h>
+
